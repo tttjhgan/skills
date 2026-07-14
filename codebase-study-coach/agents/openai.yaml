@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codebase Study Coach"
+  short_description: "以可验证步骤带你沿真实调用链渐进研读当前代码库。"
+  default_prompt: "Use $codebase-study-coach to guide me through this repository from the beginning."
