@@ -1,0 +1,4 @@
+interface:
+  display_name: "HermesAgent Notes"
+  short_description: "Distill chat knowledge and submit it to HermesAgent."
+  default_prompt: "Summarize what we learned in this chat and submit it to HermesAgent as a reviewable blog note."
