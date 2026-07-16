@@ -19,6 +19,15 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--title", required=True, help="Note title")
     parser.add_argument("--chapter", required=True, help="Target series chapter slug")
+    parser.add_argument(
+        "--chapter-num",
+        type=int,
+        help="Optional explicit chapter number for collision-free ordered publishing",
+    )
+    parser.add_argument(
+        "--slug",
+        help="Optional explicit unique URL slug for collision-free publishing",
+    )
     content_source = parser.add_mutually_exclusive_group(required=True)
     content_source.add_argument("--content-file", type=Path, help="UTF-8 Markdown file")
     content_source.add_argument("--content", help="Markdown content")
@@ -40,6 +49,9 @@ def main() -> int:
     if not args.title.strip() or not args.chapter.strip() or not content:
         print("error: title, chapter, and Markdown content must be non-empty", file=sys.stderr)
         return 2
+    if args.chapter_num is not None and args.chapter_num <= 0:
+        print("error: --chapter-num must be positive", file=sys.stderr)
+        return 2
 
     payload = {
         "title": args.title.strip(),
@@ -47,6 +59,10 @@ def main() -> int:
         "content": content,
         "tags": [tag.strip() for tag in args.tags.split(",") if tag.strip()],
     }
+    if args.chapter_num is not None:
+        payload["chapter_num"] = args.chapter_num
+    if args.slug and args.slug.strip():
+        payload["slug"] = args.slug.strip()
     encoded = json.dumps(payload, ensure_ascii=False).encode("utf-8")
 
     if not args.send:

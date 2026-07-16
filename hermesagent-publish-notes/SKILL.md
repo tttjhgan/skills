@@ -29,6 +29,21 @@ python "$env:USERPROFILE\.codex\skills\hermesagent-publish-notes\scripts\submit_
   --send
 ```
 
+## Ordered Series Publishing
+
+For a repaired webhook or a multi-note series, pass a unique positive `--chapter-num` and a unique lowercase-hyphenated `--slug` for every note. This prevents concurrent auto-numbering and URL-slug collisions. Use preview mode first when the payload contract has changed.
+
+```powershell
+python "$env:USERPROFILE\.codex\skills\hermesagent-publish-notes\scripts\submit_note.py" `
+  --title "Agent runtime" `
+  --chapter agent `
+  --chapter-num 10 `
+  --slug agent-runtime `
+  --content-file .\note.md `
+  --tags agent,runtime `
+  --send
+```
+
 Override the endpoint only when the user provides a replacement:
 
 ```powershell
